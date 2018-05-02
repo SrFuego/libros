@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     "apps.core",
+    "apps.books",
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -144,5 +145,5 @@ PIPELINE = {
 
 # Graphene configuration
 GRAPHENE = {
-    "SCHEMA": "apps.core.schema"
+    "SCHEMA": "apps.core.schema.schema"
 }

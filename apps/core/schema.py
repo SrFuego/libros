@@ -10,12 +10,12 @@ from graphene_django.debug import DjangoDebug
 
 
 # Local imports
-# from ..app.schema import ModelQuery, ModelQuery2
+from ..books.schemas import BookQuery
 
 
 # Create your schemas here.
-# class Query(ModelQuery, ModelQuery2, graphene.ObjectType):
-#     debug = graphene.Field(DjangoDebug, name='__debug')
-#
-#
-# schema = graphene.Schema(query=Query)
+class Query(BookQuery, graphene.ObjectType):
+    debug = graphene.Field(DjangoDebug, name='__debug')
+
+
+schema = graphene.Schema(query=Query)
