@@ -10,8 +10,12 @@ from django.contrib import admin
 
 
 # Local imports
-from .models import Book
+from .models import Collection, Course, Editorial, Kind, Pdf
 
 
 # Register your models here.
-admin.site.register(Book)
+admin.site.register(Collection)
+admin.site.register(Course)
+admin.site.register(Editorial)
+admin.site.register(Kind)
+admin.site.register(Pdf)
