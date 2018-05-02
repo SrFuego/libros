@@ -7,3 +7,4 @@ ipython
 model_mommy
 pydotplus
 pygraphviz
+snapshottest

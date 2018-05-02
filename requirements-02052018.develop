@@ -50,7 +50,9 @@ pytz==2018.4              # via django
 rx==1.6.1                 # via graphql-core
 simplegeneric==0.8.1      # via ipython
 singledispatch==3.4.0.3   # via graphene-django
-six==1.11.0               # via django-extensions, graphene, graphene-django, graphql-core, graphql-relay, model-mommy, pip-tools, progressbar2, promise, prompt-toolkit, python-utils, singledispatch, traitlets
+six==1.11.0               # via django-extensions, graphene, graphene-django, graphql-core, graphql-relay, model-mommy, pip-tools, progressbar2, promise, prompt-toolkit, python-utils, singledispatch, snapshottest, traitlets
+snapshottest==0.5.0
+termcolor==1.1.0          # via snapshottest
 traitlets==4.3.2          # via ipython
 typing==3.6.4             # via promise
 unipath==1.1

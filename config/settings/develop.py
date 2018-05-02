@@ -25,3 +25,6 @@ GRAPH_MODELS = {
     "all_applications": True,
     "group_models": True,
 }
+
+# Django snapshottest configuration
+TEST_RUNNER = "snapshottest.django.TestRunner"

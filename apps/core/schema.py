@@ -6,16 +6,15 @@
 
 # Third party apps imports
 import graphene
-from graphene_django.debug import DjangoDebug
 
 
 # Local imports
-from ..books.schemas import BookQuery
+from ..books.schemas import PdfQuery
 
 
 # Create your schemas here.
-class Query(BookQuery, graphene.ObjectType):
-    debug = graphene.Field(DjangoDebug, name='__debug')
+class Query(PdfQuery, graphene.ObjectType):
+    pass
 
 
 schema = graphene.Schema(query=Query)
