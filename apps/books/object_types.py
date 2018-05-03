@@ -10,15 +10,10 @@ from graphene_django.types import DjangoObjectType
 
 
 # Local imports
-from .models import Collection, Course, Editorial, Kind, Pdf
+from .models import Course, Editorial, Kind, Pdf
 
 
 # Create your schemas here.
-class CollectionType(DjangoObjectType):
-    class Meta:
-        model = Collection
-
-
 class CourseType(DjangoObjectType):
     class Meta:
         model = Course

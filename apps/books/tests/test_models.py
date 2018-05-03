@@ -11,21 +11,10 @@ from model_mommy import mommy
 
 
 # Local imports
-from ..models import Collection, Course, Editorial, Kind, Pdf
+from ..models import Course, Editorial, Kind, Pdf
 
 
 # Create your model tests here.
-class CollectionTestCase(TestCase):
-    def setUp(self):
-        self.collection = mommy.make(Collection)
-
-    def test_method_str_return_name(self):
-        self.assertTrue(self.collection.name in self.collection.__str__())
-
-    def tearDown(self):
-        self.collection.delete()
-
-
 class CourseTestCase(TestCase):
     def setUp(self):
         self.course = mommy.make(Course)

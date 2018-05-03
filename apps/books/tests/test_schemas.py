@@ -13,35 +13,11 @@ from snapshottest import TestCase
 
 
 # Local imports
-from ..models import Collection, Course, Editorial, Kind, Pdf
+from ..models import Course, Editorial, Kind, Pdf
 from apps.core.schema import schema
 
 
 # Create your schemas tests here.
-class CollectionTestCase(TestCase):
-    def setUp(self):
-        self.collections = mommy.make(Collection, _quantity=20)
-        self.client = Client(schema)
-
-    def test_all_collectionss_list(self):
-        self.assertMatchSnapshot(self.client.execute('''
-            query Collection {
-                allCollections {
-                    id
-                    name
-                    editorial {
-                        id
-                        name
-                    }
-                }
-            }
-        '''))
-
-    def tearDown(self):
-        for collection in self.collections:
-            collection.delete()
-
-
 class CourseTestCase(TestCase):
     def setUp(self):
         self.courses = mommy.make(Course, _quantity=20)
@@ -109,10 +85,6 @@ class PdfTestCase(TestCase):
         self.pdfs_queryset = Pdf.objects.all()
         self.list_variables = [
             {
-                "collection": random.choice(list(set(
-                    self.pdfs_queryset.values_list("collection", flat=True)))),
-            },
-            {
                 "course": random.choice(
                     list(set(
                         self.pdfs_queryset.values_list("course", flat=True)))),
@@ -149,10 +121,8 @@ class PdfTestCase(TestCase):
     def test_filter_pdfs_list(self):
         for variable in self.list_variables:
             self.assertMatchSnapshot(self.client.execute('''
-                query Pdf($collection: Int, $course: Int, $kind: Int) {
-                    allPdfs (
-                            collection: $collection, course: $course,
-                            kind: $kind) {
+                query Pdf($course: Int, $kind: Int) {
+                    allPdfs (course: $course, kind: $kind) {
                         available
                         name
                         url
