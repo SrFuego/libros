@@ -15,4 +15,4 @@ from django.apps import AppConfig
 # Configure your app here.
 class BooksConfig(AppConfig):
     name = "apps.books"
-    verbose_name = "Books"
+    verbose_name = "Libros"

@@ -16,40 +16,54 @@ from model_utils.models import TimeStampedModel
 # Create your models here.
 class Collection(TimeStampedModel):
     editorial = models.ForeignKey("Editorial")
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="nombre")
+
+    class Meta:
+        verbose_name = "Colección"
+        verbose_name_plural = "Colecciones"
 
     def __str__(self):
         return self.name
 
 
 class Course(TimeStampedModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="nombre")
+
+    class Meta:
+        verbose_name = "Curso"
 
     def __str__(self):
         return self.name
 
 
 class Editorial(TimeStampedModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="nombre")
+
+    class Meta:
+        verbose_name = "Editorial"
+        verbose_name_plural = "Editoriales"
 
     def __str__(self):
         return self.name
 
 
 class Kind(TimeStampedModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="nombre")
+
+    class Meta:
+        verbose_name = "Tipo"
 
     def __str__(self):
         return self.name
 
 
 class Pdf(TimeStampedModel):
-    available = models.BooleanField(default=True)
-    collection = models.ForeignKey("Collection")
-    course = models.ForeignKey("Course")
-    kind = models.ForeignKey("Kind")
-    name = models.CharField(max_length=50)
-    url = models.URLField()
+    available = models.BooleanField(default=True, verbose_name="disponible")
+    collection = models.ForeignKey("Collection", verbose_name="colección")
+    course = models.ForeignKey("Course", verbose_name="curso")
+    kind = models.ForeignKey("Kind", verbose_name="tipo")
+    name = models.CharField(max_length=50, verbose_name="nombre")
+    url = models.URLField(verbose_name="link")
 
     def __str__(self):
         return self.name
