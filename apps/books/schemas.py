@@ -22,11 +22,9 @@ class PdfType(DjangoObjectType):
 
 class PdfQuery(object):
     all_pdfs = graphene.List(
-        PdfType, id=graphene.Int(), name=graphene.String(),
-        collection=graphene.String(), course=graphene.String())
-    pdf = graphene.Field(
-        PdfType, id=graphene.Int(), name=graphene.String(),
-        collection=graphene.String(), course=graphene.String())
+        PdfType, collection=graphene.Int(), course=graphene.Int(),
+        kind=graphene.Int())
+    pdf = graphene.Field(PdfType, id=graphene.Int(), name=graphene.String())
 
     def resolve_all_pdfs(self, info, **kwargs):
         return Pdf.objects.filter(**kwargs)

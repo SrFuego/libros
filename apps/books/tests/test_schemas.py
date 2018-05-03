@@ -21,7 +21,23 @@ class APITestCase(TestCase):
         self.pdfs = mommy.make(Pdf, _quantity=20)
         self.client = Client(schema)
         self.pdfs_queryset = Pdf.objects.all()
-        self.        variables = [
+        self.list_variables = [
+            {
+                "collection": random.choice(list(set(
+                    self.pdfs_queryset.values_list("collection", flat=True)))),
+            },
+            {
+                "course": random.choice(
+                    list(set(
+                        self.pdfs_queryset.values_list("course", flat=True)))),
+            },
+            {
+                "kind": random.choice(
+                    list(set(
+                        self.pdfs_queryset.values_list("kind", flat=True)))),
+            }
+        ]
+        self.element_variables = [
             {
                 "id": random.choice(
                     list(set(self.pdfs_queryset.values_list("id", flat=True)))),
@@ -30,16 +46,6 @@ class APITestCase(TestCase):
                 "name": random.choice(
                     list(set(
                         self.pdfs_queryset.values_list("name", flat=True)))),
-            },
-            {
-                "collection": random.choice(
-                    list(set(self.pdfs_queryset.values_list(
-                        "collection", flat=True)))),
-            },
-            {
-                "course": random.choice(
-                    list(set(
-                        self.pdfs_queryset.values_list("course", flat=True)))),
             }
         ]
 
@@ -55,14 +61,12 @@ class APITestCase(TestCase):
         '''))
 
     def test_filter_pdfs_list(self):
-        for variable in self.variables:
+        for variable in self.list_variables:
             self.assertMatchSnapshot(self.client.execute('''
-                query Pdf(
-                        $id: Int, $name: String, $collection: String,
-                        $course: String) {
+                query Pdf($collection: Int, $course: Int, $kind: Int) {
                     allPdfs (
-                            id: $id, name: $name, collection: $collection,
-                            course: $course) {
+                            collection: $collection, course: $course,
+                            kind: $kind) {
                         available
                         name
                         url
@@ -71,14 +75,10 @@ class APITestCase(TestCase):
             ''', variable_values=variable))
 
     def tests_get_by_parameter(self):
-        for variable in self.variables:
+        for variable in self.element_variables:
             self.assertMatchSnapshot(self.client.execute('''
-                query Pdf(
-                        $id: Int, $name: String, $collection: String,
-                        $course: String) {
-                    pdf (
-                            id: $id, name: $name, collection: $collection,
-                            course: $course) {
+                query Pdf($id: Int, $name: String) {
+                    pdf (id: $id, name: $name) {
                         available
                         name
                         url
