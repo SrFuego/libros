@@ -12,6 +12,7 @@
 #       Generated directories       #
 #===================================#
 **/__pycache__/
+**/snapshots/
 htmlcov/
 media/
 static/
