@@ -2,6 +2,7 @@
 # Python imports
 import random
 
+
 # Django imports
 
 
@@ -10,13 +11,98 @@ from graphene.test import Client
 from model_mommy import mommy
 from snapshottest import TestCase
 
+
 # Local imports
-from ..models import Pdf
+from ..models import Collection, Course, Editorial, Kind, Pdf
 from apps.core.schema import schema
 
 
 # Create your schemas tests here.
-class APITestCase(TestCase):
+class CollectionTestCase(TestCase):
+    def setUp(self):
+        self.collections = mommy.make(Collection, _quantity=20)
+        self.client = Client(schema)
+
+    def test_all_collectionss_list(self):
+        self.assertMatchSnapshot(self.client.execute('''
+            query Collection {
+                allCollections {
+                    id
+                    name
+                    editorial {
+                        id
+                        name
+                    }
+                }
+            }
+        '''))
+
+    def tearDown(self):
+        for collection in self.collections:
+            collection.delete()
+
+
+class CourseTestCase(TestCase):
+    def setUp(self):
+        self.courses = mommy.make(Course, _quantity=20)
+        self.client = Client(schema)
+
+    def test_all_courses_list(self):
+        self.assertMatchSnapshot(self.client.execute('''
+            query Course {
+                allCourses {
+                    id
+                    name
+                }
+            }
+        '''))
+
+    def tearDown(self):
+        for course in self.courses:
+            course.delete()
+
+
+class EditorialTestCase(TestCase):
+    def setUp(self):
+        self.editorials = mommy.make(Editorial, _quantity=20)
+        self.client = Client(schema)
+
+    def test_all_editorials_list(self):
+        self.assertMatchSnapshot(self.client.execute('''
+            query Editorial{
+                allEditorials {
+                    id
+                    name
+                }
+            }
+        '''))
+
+    def tearDown(self):
+        for editorial in self.editorials:
+            editorial.delete()
+
+
+class KindTestCase(TestCase):
+    def setUp(self):
+        self.kinds = mommy.make(Kind, _quantity=20)
+        self.client = Client(schema)
+
+    def test_all_kinds_list(self):
+        self.assertMatchSnapshot(self.client.execute('''
+            query Kind {
+                allKinds {
+                    id
+                    name
+                }
+            }
+        '''))
+
+    def tearDown(self):
+        for kind in self.kinds:
+            kind.delete()
+
+
+class PdfTestCase(TestCase):
     def setUp(self):
         self.pdfs = mommy.make(Pdf, _quantity=20)
         self.client = Client(schema)
