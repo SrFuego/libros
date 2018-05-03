@@ -1,25 +1,36 @@
 # apps/books/schemas.py
 # Python imports
-import graphene
+
 
 # Django imports
 
+
 # Third party apps imports
-from graphene_django import DjangoObjectType
+import graphene
+from graphene_django.types import DjangoObjectType
+
 
 # Local imports
-from .models import Book
+from .models import Pdf
 
 
 # Create your schemas here.
-class BookSchema(DjangoObjectType):
+class PdfType(DjangoObjectType):
     class Meta:
-        model = Book
+        model = Pdf
 
 
-class BookQuery(graphene.AbstractType):
-    books = graphene.List(BookSchema)
-    
-    @graphene.resolve_only_args
-    def resolve_books(self):
-        return Book.objects.all()
+class PdfQuery(object):
+    all_pdfs = graphene.List(PdfType)
+    pdf = graphene.Field(PdfType, id=graphene.Int(), name=graphene.String())
+
+    def resolve_all_pdfs(self, info, **kwargs):
+        return Pdf.objects.all()
+
+    def resolve_pdf(self, info, **kwargs):
+        pdf_id = kwargs.get("id")
+        pdf_name = kwargs.get("name")
+        if pdf_id is not None:
+            return Pdf.objects.get(pk=pdf_id)
+        if pdf_name is not None:
+            return Pdf.objects.get(name=pdf_name)
