@@ -18,43 +18,73 @@ from apps.core.schema import schema
 # Create your schemas tests here.
 class APITestCase(TestCase):
     def setUp(self):
-        self.pdfs = mommy.make(Pdf, _quantity=7)
+        self.pdfs = mommy.make(Pdf, _quantity=20)
         self.client = Client(schema)
         self.pdfs_queryset = Pdf.objects.all()
+        self.        variables = [
+            {
+                "id": random.choice(
+                    list(set(self.pdfs_queryset.values_list("id", flat=True)))),
+            },
+            {
+                "name": random.choice(
+                    list(set(
+                        self.pdfs_queryset.values_list("name", flat=True)))),
+            },
+            {
+                "collection": random.choice(
+                    list(set(self.pdfs_queryset.values_list(
+                        "collection", flat=True)))),
+            },
+            {
+                "course": random.choice(
+                    list(set(
+                        self.pdfs_queryset.values_list("course", flat=True)))),
+            }
+        ]
 
-    def test_pdfs_list(self):
+    def test_all_pdfs_list(self):
         self.assertMatchSnapshot(self.client.execute('''
-            query {
+            query Pdf {
                 allPdfs {
-                    id
+                    available
                     name
+                    url
                 }
             }
         '''))
 
-    def tests_filter_by_id(self):
-        pdf_id_exists = random.choice(list(set(
-            self.pdfs_queryset.values_list("id", flat=True))))
-        self.assertMatchSnapshot(self.client.execute('''
-            query Pdf($id: Int, $name: String) {
-                pdf (id: $id, name: $name) {
-                    id
-                    name
+    def test_filter_pdfs_list(self):
+        for variable in self.variables:
+            self.assertMatchSnapshot(self.client.execute('''
+                query Pdf(
+                        $id: Int, $name: String, $collection: String,
+                        $course: String) {
+                    allPdfs (
+                            id: $id, name: $name, collection: $collection,
+                            course: $course) {
+                        available
+                        name
+                        url
+                    }
                 }
-            }
-        ''', variable_values={"id": pdf_id_exists}))
+            ''', variable_values=variable))
 
-    def tests_filter_by_name(self):
-        pdf_name_exists = random.choice(list(set(
-            self.pdfs_queryset.values_list("name", flat=True))))
-        self.assertMatchSnapshot(self.client.execute('''
-            query Pdf($id: Int, $name: String) {
-                pdf (id: $id, name: $name) {
-                    id
-                    name
+    def tests_get_by_parameter(self):
+        for variable in self.variables:
+            self.assertMatchSnapshot(self.client.execute('''
+                query Pdf(
+                        $id: Int, $name: String, $collection: String,
+                        $course: String) {
+                    pdf (
+                            id: $id, name: $name, collection: $collection,
+                            course: $course) {
+                        available
+                        name
+                        url
+                    }
                 }
-            }
-        ''', variable_values={"name": pdf_name_exists}))
+            ''', variable_values=variable))
 
     def tearDown(self):
         for pdf in self.pdfs:

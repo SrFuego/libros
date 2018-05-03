@@ -21,16 +21,15 @@ class PdfType(DjangoObjectType):
 
 
 class PdfQuery(object):
-    all_pdfs = graphene.List(PdfType)
-    pdf = graphene.Field(PdfType, id=graphene.Int(), name=graphene.String())
+    all_pdfs = graphene.List(
+        PdfType, id=graphene.Int(), name=graphene.String(),
+        collection=graphene.String(), course=graphene.String())
+    pdf = graphene.Field(
+        PdfType, id=graphene.Int(), name=graphene.String(),
+        collection=graphene.String(), course=graphene.String())
 
     def resolve_all_pdfs(self, info, **kwargs):
-        return Pdf.objects.all()
+        return Pdf.objects.filter(**kwargs)
 
     def resolve_pdf(self, info, **kwargs):
-        pdf_id = kwargs.get("id")
-        pdf_name = kwargs.get("name")
-        if pdf_id is not None:
-            return Pdf.objects.get(pk=pdf_id)
-        if pdf_name is not None:
-            return Pdf.objects.get(name=pdf_name)
+        return Pdf.objects.get(**kwargs)
