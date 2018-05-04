@@ -23,9 +23,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "foo")
 
 DJANGO_APPS = (
     # Admin third party app, but need put before "django.contrib.admin"
-    "material",
-    "material.admin",
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -37,6 +34,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     "pipeline",
     "graphene_django",
+    "dynamic_raw_id",
 )
 
 LOCAL_APPS = (

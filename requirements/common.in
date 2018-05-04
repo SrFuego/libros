@@ -1,6 +1,6 @@
 django < 1.12
 django-dotenv
-django-material
+django-dynamic-raw-id
 django-model-utils
 django-pipeline
 django-stdimage
