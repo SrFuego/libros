@@ -11,7 +11,7 @@ from model_mommy import mommy
 
 
 # Local imports
-from ..models import Course, Editorial, Kind, Pdf
+from ..models import Course, Editorial, Kind, Pdf, Topic
 
 
 # Create your model tests here.
@@ -57,3 +57,14 @@ class PdfTestCase(TestCase):
 
     def tearDown(self):
         self.pdf.delete()
+
+
+class TopicTestCase(TestCase):
+    def setUp(self):
+        self.topic = mommy.make(Topic)
+
+    def test_method_str_return_name(self):
+        self.assertTrue(self.topic.name in self.topic.__str__())
+
+    def tearDown(self):
+        self.topic.delete()

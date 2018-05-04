@@ -9,12 +9,14 @@ import graphene
 
 
 # Local imports
-from ..books.queries import CourseQuery, EditorialQuery, KindQuery, PdfQuery
+from ..books.queries import (
+    CourseQuery, EditorialQuery, KindQuery, PdfQuery, TopicQuery,)
 
 
 # Create your schemas here.
 class Query(
-        CourseQuery, EditorialQuery, KindQuery, PdfQuery, graphene.ObjectType):
+        CourseQuery, EditorialQuery, KindQuery, PdfQuery, TopicQuery,
+        graphene.ObjectType):
     pass
 
 

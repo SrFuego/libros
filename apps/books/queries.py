@@ -10,8 +10,9 @@ import graphene
 
 
 # Local imports
-from .models import Course, Editorial, Kind, Pdf
-from .object_types import CourseType, EditorialType, KindType, PdfType
+from .models import Course, Editorial, Kind, Pdf, Topic
+from .object_types import (
+    CourseType, EditorialType, KindType, PdfType, TopicType,)
 
 
 # Create your schemas here.
@@ -46,3 +47,10 @@ class PdfQuery(object):
 
     def resolve_pdf(self, info, **kwargs):
         return Pdf.objects.get(**kwargs)
+
+
+class TopicQuery(object):
+    all_topics = graphene.List(TopicType)
+
+    def resolve_all_topics(self, info, **kwargs):
+        return Topic.objects.filter(**kwargs)

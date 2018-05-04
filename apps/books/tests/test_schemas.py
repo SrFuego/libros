@@ -13,7 +13,7 @@ from snapshottest import TestCase
 
 
 # Local imports
-from ..models import Course, Editorial, Kind, Pdf
+from ..models import Course, Editorial, Kind, Pdf, Topic
 from apps.core.schema import schema
 
 
@@ -145,3 +145,23 @@ class PdfTestCase(TestCase):
     def tearDown(self):
         for pdf in self.pdfs:
             pdf.delete()
+
+
+class TopicTestCase(TestCase):
+    def setUp(self):
+        self.topics = mommy.make(Topic, _quantity=20)
+        self.client = Client(schema)
+
+    def test_all_topics_list(self):
+        self.assertMatchSnapshot(self.client.execute('''
+            query Topic {
+                allTopics {
+                    id
+                    name
+                }
+            }
+        '''))
+
+    def tearDown(self):
+        for topic in self.topics:
+            topic.delete()

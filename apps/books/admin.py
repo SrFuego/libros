@@ -10,7 +10,7 @@ from django.contrib import admin
 
 
 # Local imports
-from .models import Course, Editorial, Kind, Pdf
+from .models import Course, Editorial, Kind, Pdf, Topic
 
 
 # Register your models here.
@@ -18,3 +18,4 @@ admin.site.register(Course)
 admin.site.register(Editorial)
 admin.site.register(Kind)
 admin.site.register(Pdf)
+admin.site.register(Topic)

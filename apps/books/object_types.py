@@ -10,7 +10,7 @@ from graphene_django.types import DjangoObjectType
 
 
 # Local imports
-from .models import Course, Editorial, Kind, Pdf
+from .models import Course, Editorial, Kind, Pdf, Topic
 
 
 # Create your schemas here.
@@ -32,3 +32,8 @@ class KindType(DjangoObjectType):
 class PdfType(DjangoObjectType):
     class Meta:
         model = Pdf
+
+
+class TopicType(DjangoObjectType):
+    class Meta:
+        model = Topic
